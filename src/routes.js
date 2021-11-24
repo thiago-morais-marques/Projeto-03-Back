@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 
-//import projectsController from './controllers/projectsController';
-//import tasksController from './controllers/tasksController';
+//import postsController from './controllers/postsController';
+//import commentsController from './controllers/commentsController';
 import authController from './controllers/authController';
 
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
@@ -36,7 +36,7 @@ router.use((req, res, next) => {
 });
 
 // Rotas Privadas
-//router.use('/projects', projectsController); // /api/projects
-//router.use('/tasks', tasksController); // /api/tasks
+//router.use('/posts', postsController); // /api/posts
+//router.use('/admin-comments', commentsController); // /api/admin-comments
 
 export default router;
