@@ -3,9 +3,9 @@ import * as yup from 'yup';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-// import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
-// import EmailAlreadyInUseException from '../exceptions/EmailAlreadyInUseException';
-// import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
+import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
+import EmailAlreadyInUseException from '../exceptions/EmailAlreadyInUseException';
+import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 
 class AuthService {
   constructor(repository) {
