@@ -1,16 +1,18 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-
-//import postsController from './controllers/postsController';
-//import commentsController from './controllers/commentsController';
 import authController from './controllers/authController';
-
+import postController from './controllers/postController';
+// import commentsController from './controllers/commentsController';
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
 
 const router = Router();
 
 // Rotas Públicas
+router.use('/posts', postController); // /api/posts
 router.use('/auth', authController); // /api/auth
+
+// router.use('/postController', postController); // /api/postController
+
 
 // Criar AQUI um middleware que verifica as credenciais do nosso user
 router.use((req, res, next) => {
@@ -35,8 +37,14 @@ router.use((req, res, next) => {
   }
 });
 
+
+router.use('/create-posts', postController); // /api/posts
+
+
+
+
 // Rotas Privadas
-//router.use('/posts', postsController); // /api/posts
+// router.use('/posts', postController); // /api/posts
 //router.use('/admin-comments', commentsController); // /api/admin-comments
 
 export default router;

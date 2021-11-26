@@ -1,10 +1,11 @@
+
 {
   "name": "projeto-03",
   "version": "1.0.0",
   "main": "src/app.js",
   "scripts": {
-    "start": "npm-run-all -s clean build init",
     "dev": "nodemon --exec babel-node src/app.js",
+    "start": "npm-run-all -s clean build init",
     "clean": "rm -rf build",
     "build": "babel src --out-dir build --copy-files",
     "init": "node build/app.js"
@@ -26,6 +27,11 @@
     "mongoose": "^6.0.13",
     "npm-run-all": "^4.1.5",
     "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "eslint": "^8.3.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.3"
   },
   "repository": {
     "type": "git",

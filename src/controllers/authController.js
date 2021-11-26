@@ -1,8 +1,11 @@
 import { Router } from 'express';
-
+// import * as yup from 'yup';
+// import bcrypt from 'bcryptjs';
 import User from '../models/User';
 import AuthService from '../service/authService';
 import AuthRepository from '../repository/authRepository';
+// import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
+
 
 const router = Router();
 
@@ -13,7 +16,6 @@ const authService = new AuthService(authRepository);
 router.post('/register', async (req, res, next) => {
   try {
     const { body } = req;
-
     const newUser = await authService.register(body);
 
     res.json(newUser);
@@ -36,5 +38,3 @@ router.post('/login', async (req, res, next) => {
 });
 
 export default router;
-
-
