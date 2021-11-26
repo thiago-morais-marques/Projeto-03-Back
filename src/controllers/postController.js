@@ -44,44 +44,56 @@ router.get('/:postId', async (req, res, next) => {
 })
 
 
+// router.post('/', async (req, res, next) => {
+    // try {
+        
+        // const { id } = req.user;
+        // const body = new CreatePostRequestDTO(req.body);
+
+        // const newPost = await postService.create(body, id)
+
+        // res.status(201).json(newPost);
+    // } catch (error) {
+        // next(error);
+    // }
+// });
+
+
+
+
 router.post('/', async (req, res, next) => {
     try {
-
-        const { id } = req.user;
-        const body = new CreatePostRequestDTO(req.body);
-
-        const newPost = await postService.create(body, id)
-
-        res.status(201).json(newPost);
+      const { body } = req;
+      const newPost = await postService.create(body, req.user.id);
+      res.json(newPost);
     } catch (error) {
-        next(error);
+      next(error);
     }
-});
+  });
 
+// router.put('/:postId', async (req, res, next) => {
+//     try {
+//         const { id } = req.user;
+//         const { postId } = req.params;
+//         const body = new EditPostRequestDTO(req.body);
 
-router.put('/:postId', async (req, res, next) => {
-    try {
-        const { id } = req.user;
-        const { postId } = req.params;
-        const body = new EditPostRequestDTO(req.body);
+//         const editedPost = await postService.updateOnePost(postId, id, body);
 
-        const editedPost = await postService.updateOnePost(postId, id, body);
+//         res.json(editedPost);
+//     } catch (error) {
+//         next(error)
+//     }
+// })
 
-        res.json(editedPost);
-    } catch (error) {
-        next(error)
-    }
-})
-
-router.delete('/:postId', (req, res, next) => {
-    const { id } = req.user;
-    const { postId } = req.params;
+// router.delete('/:postId', (req, res, next) => {
+//     const { id } = req.user;
+//     const { postId } = req.params;
     
 
-    const deletePost = await DeletePostRepository.DeletePostRepository(postId, id);
+//     const deletePost = await DeletePostRepository.DeletePostRepository(postId, id);
     
-    res.status(204).json()
-})
+//     res.status(204).json()
+// })
 
 
 
