@@ -29,7 +29,7 @@ router.get('/', async (req, res, next) => {
     }
 });
 
-//lógica para o dono do post
+//lógica para o dono do posts
 router.get('/:postId', async (req, res, next) => { 
     try {
         const { id } = req.user;
