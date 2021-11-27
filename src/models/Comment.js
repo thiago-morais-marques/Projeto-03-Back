@@ -21,5 +21,6 @@ import { Schema, model } from 'mongoose';
    })
 
 const Comment = model('comment', commentSchema);
+// // // // 
 
 export default Comment;
