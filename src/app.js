@@ -13,12 +13,11 @@ initDbConnection();
 app.use(express.json());
 /* app.use(cors({
   origin: process.env.FRONT_END_URI,
-})); // Liberando acesso SOMENTE para o localhost:3000!!! */
+})); */
 
 app.use((req, res, next) => {
   console.log(req.method, ' ', req.path);
-
-  next(); // Deixe o request prosseguir para o próximo middleware
+  next();
 });
 
 app.use('/api', appRoutes);

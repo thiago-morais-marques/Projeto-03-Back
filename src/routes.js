@@ -1,28 +1,26 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 
-//import postsController from './controllers/postsController';
-//import commentsController from './controllers/commentsController';
+import getPostController from './controllers/getPostController';
 import authController from './controllers/authController';
+import createPostController from './controllers/createPostController';
+import updatePostController from './controllers/updatePostController';
+
+//import commentsController from './controllers/commentsController';
 
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
 
 const router = Router();
 
 // Rotas Públicas
+router.use('/posts', getPostController); // /api/posts
 router.use('/auth', authController); // /api/auth
-
-// Criar AQUI um middleware que verifica as credenciais do nosso user
 router.use((req, res, next) => {
-  // AQUI VAMOS RECEBER O ACCESS TOKEN E VALIDA-LO PARA AUTORIZAR O CLIENT A VER OS SEUS PROJETOS
   const bearerToken = req.get('Authorization');
-
-  // Se foi passado este header
   if (!bearerToken) {
     return next(new NotAuthenticatedException('Missing token'));
   }
 
-  // validar o token
   const token = bearerToken.slice(7);
 
   try {
@@ -36,7 +34,8 @@ router.use((req, res, next) => {
 });
 
 // Rotas Privadas
-//router.use('/posts', postsController); // /api/posts
+router.use('/create-posts', createPostController); // /api/create-posts
+router.use('/posts', updatePostController); // /api/update-posts
 //router.use('/admin-comments', commentsController); // /api/admin-comments
 
 export default router;
