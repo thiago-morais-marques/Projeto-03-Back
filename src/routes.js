@@ -6,6 +6,8 @@ import authController from './controllers/authController';
 import createPostController from './controllers/createPostController';
 import updatePostController from './controllers/updatePostController';
 
+import deletePostController from './controllers/deletePostController';
+
 //import commentsController from './controllers/commentsController';
 
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
@@ -36,6 +38,9 @@ router.use((req, res, next) => {
 // Rotas Privadas
 router.use('/create-posts', createPostController); // /api/create-posts
 router.use('/posts', updatePostController); // /api/update-posts
+
+router.use('/posts', deletePostController); // /api/update-posts
+
 //router.use('/admin-comments', commentsController); // /api/admin-comments
 
 export default router;

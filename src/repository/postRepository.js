@@ -41,6 +41,12 @@ class PostRepository {
   async insertCommentId(postId, commentId) {
     await this.postModel.findByIdAndUpdate(postId, { $push: { comments: commentId } });
   }
+
+  async deleteOneBId(postId) {
+            await this.postModel.findByIdAndDelete(postId);
+    
+  }
+
 }
 
 export default PostRepository;

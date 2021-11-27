@@ -72,6 +72,10 @@ class PostsService {
 
     return editedPost;
   }
+
+  async deleteOne(postId) {
+          await this.postRepository.deleteOneBId(postId);
+  }
     
 }
 
