@@ -1,22 +1,22 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
-
 import getPostController from './controllers/getPostController';
 import authController from './controllers/authController';
 import createPostController from './controllers/createPostController';
 import updatePostController from './controllers/updatePostController';
-
 import deletePostController from './controllers/deletePostController';
-
-//import commentsController from './controllers/commentsController';
+import getCommentController from './controllers/getCommentController'
+import privateCommentController from './controllers/privateCommentController';
 
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
-
 const router = Router();
 
 // Rotas Públicas
-router.use('/posts', getPostController); // /api/posts
 router.use('/auth', authController); // /api/auth
+router.use('/posts', getPostController); // /api/posts
+router.use('/comments', getCommentController);
+ 
+
 router.use((req, res, next) => {
   const bearerToken = req.get('Authorization');
   if (!bearerToken) {
@@ -36,10 +36,12 @@ router.use((req, res, next) => {
 });
 
 // Rotas Privadas
+// router.use('/comments', getCommentController);
 router.use('/create-posts', createPostController); // /api/create-posts
 router.use('/posts', updatePostController); // /api/update-posts
-
 router.use('/posts', deletePostController); // /api/update-posts
+router.use('/comments', privateCommentController);
+
 
 //router.use('/admin-comments', commentsController); // /api/admin-comments
 

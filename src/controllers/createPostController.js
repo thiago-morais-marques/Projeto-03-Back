@@ -19,4 +19,25 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+
+// router.post('/:postId', async (req, res, next) => {
+//   try {
+//     const { body } = req;
+//     const { postId } = req.params;
+//     const savedComment = await commentService.create(body, postId);
+//     // Podemos movê-lo para o projectepository
+//     res.status(201).json(savedComment);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
+
+
+
+
+
+
+
+
+
 export default router;

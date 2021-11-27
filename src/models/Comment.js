@@ -15,7 +15,12 @@ import { Schema, model } from 'mongoose';
       post: {
          type: Schema.Types.ObjectId,
          ref: 'post'
-      }
+      },
+      owner: { 
+         type: Schema.Types.ObjectId,
+         ref: 'user',
+         required: true,
+       },
    }, {
       timestamps: true,
    })
