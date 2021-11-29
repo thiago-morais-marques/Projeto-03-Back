@@ -24,7 +24,7 @@ router.get('/', async (req, res, next
 router.get('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log('REQ.USER NA ROTA DE DETALHE', req.user);
+    // console.log('REQ.USER NA ROTA DE DETALHE', req.user);
     const post = await postService.getOne(id);
     res.json(post);
   } catch (error) {

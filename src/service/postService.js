@@ -2,10 +2,19 @@
 /* eslint-disable no-undef */
 import * as yup from 'yup';
 import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
+import InvalidOwnerException from '../exceptions/InvalidOwnerException';
 
 class PostsService {
   constructor(repository) {
     this.postRepository = repository;
+  }
+
+  async validateOwnership(postId, ownerId) {
+    const ownership = await this.postRepository.findOneByIdAndOwnerId(postId, ownerId);
+
+    if (!ownership) {
+      throw new InvalidOwnerException();
+    }
   }
 
   async getAllByFilter(title = ''/* , userId */) {
@@ -41,7 +50,8 @@ class PostsService {
     return newPost;
   }
 
-  async updateOnePost(body, postId) {
+  async updateOnePost(postId, ownerId, body) {
+    
     const schema = yup.object().shape({
       title: yup
       .string()
@@ -49,7 +59,6 @@ class PostsService {
       .min(1, 'Mimimum of one charracter')
       .max(150, 'Maximum of 150 charracters'),
     });
-
     try {
       await schema.validate(body, { abortEarly: false });
     } catch (error) {
@@ -60,12 +69,12 @@ class PostsService {
       throw new InvalidBodyRequestException(errors);
     }
 
+    await this.validateOwnership(postId, ownerId);
+
     const infoToUpdate = {
       title: body.title,
       text: body.text,
     }
-
-    console.log(infoToUpdate);
 
     const editedPost = await this.postRepository.updatePostById(postId, infoToUpdate);
 
@@ -73,9 +82,8 @@ class PostsService {
   }
 
   async deleteOne(postId) {
-          await this.postRepository.deleteOneBId(postId);
+    await this.postRepository.deleteOneBId(postId);
   }
-    
 }
 
 export default PostsService;

@@ -29,11 +29,21 @@ class PostRepository {
     return newPost;
   }
 
-  async updatePostById(id, infoToUpdate) {
+  async findOneByIdAndOwnerId(postId, ownerId) {
+    const post = await this.postModel.findOne({
+      _id: postId,
+      owner: ownerId,
+    }).populate('comments');
+
+    console.log(ownerId);
+    return post;
+  }
+
+  async updatePostById(postId, infoToUpdate) {
   
-    const editedPost = await this.postModel.findByIdAndUpdate(
-      id , infoToUpdate, { new: true }
-    );
+    const editedPost = await this.postModel.findByIdAndUpdate({
+      _id: postId, 
+    }, infoToUpdate, { new: true },);
 
     return editedPost;
   }
@@ -43,10 +53,9 @@ class PostRepository {
   }
 
   async deleteOneBId(postId) {
-            await this.postModel.findByIdAndDelete(postId);
+    await this.postModel.findByIdAndDelete(postId);
     
   }
-
 }
 
 export default PostRepository;
