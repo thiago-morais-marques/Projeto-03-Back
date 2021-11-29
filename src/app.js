@@ -23,7 +23,6 @@ app.use((req, res, next) => {
 app.use('/api', appRoutes);
 
 app.use((error, req, res, next) => {
-  // Middleware UNICAMENTE responsável por receber requisições que possuam algum erro
   console.log(error);
   res.status(error.status || 500).json({ error: error.message });
 });

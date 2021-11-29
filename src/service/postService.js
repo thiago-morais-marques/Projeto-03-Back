@@ -1,17 +1,12 @@
-/* eslint-disable class-methods-use-this */
-/* eslint-disable no-undef */
-import * as yup from 'yup';
-import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
-
-class PostsService {
+import { postValidation } from '../validation/postValidation';
+class PostService {
   constructor(repository) {
     this.postRepository = repository;
   }
 
   async validateOwnership(postId, ownerId) {
     const ownership = await this.postRepository.findOneByIdAndOwnerId(postId, ownerId);
-
     if (!ownership) {
       throw new InvalidOwnerException();
     }
@@ -28,62 +23,23 @@ class PostsService {
   }
 
   async create(body, userId) {
-    const schema = yup.object().shape({
-      title: yup
-      .string()
-      .required('Required field')
-      .min(1, 'Mimimum of one charracter')
-      .max(150, 'Maximum of 150 charracters'),
-    });
-
-    try {
-      await schema.validate(body, { abortEarly: false });
-    } catch (error) {
-      const errors = error.inner.map((err) => ({
-        field: err.path,
-        error: err.errors.length > 0 ? err.errors : err.errors[0],
-      }));
-      throw new InvalidBodyRequestException(errors);
-    }
-
+    await postValidation(body);
     const newPost = await this.postRepository.create(body, userId);
     return newPost;
   }
 
   async updateOnePost(postId, ownerId, body) {
-    
-    const schema = yup.object().shape({
-      title: yup
-      .string()
-      .required('Required field')
-      .min(1, 'Mimimum of one charracter')
-      .max(150, 'Maximum of 150 charracters'),
-    });
-    try {
-      await schema.validate(body, { abortEarly: false });
-    } catch (error) {
-      const errors = error.inner.map((err) => ({
-        field: err.path,
-        error: err.errors.length > 0 ? err.errors : err.errors[0],
-      }));
-      throw new InvalidBodyRequestException(errors);
-    }
-
+    await postValidation(body);
     await this.validateOwnership(postId, ownerId);
-
-    const infoToUpdate = {
-      title: body.title,
-      text: body.text,
-    }
-
+    const infoToUpdate = { title: body.title, text: body.text }
     const editedPost = await this.postRepository.updatePostById(postId, infoToUpdate);
-
     return editedPost;
   }
 
-  async deleteOne(postId) {
-    await this.postRepository.deleteOneBId(postId);
+  async deleteOne(postId, ownerId) {
+    await this.validateOwnership(postId, ownerId);
+    await this.postRepository.deleteOneById(postId);
   }
 }
 
-export default PostsService;
+export default PostService;

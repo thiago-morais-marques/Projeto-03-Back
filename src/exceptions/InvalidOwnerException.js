@@ -1,5 +1,4 @@
-
-class ProjectNotFoundException extends Error {
+class InvalidOwnerException extends Error {
     constructor() {
       super();
       this.message = 'Invalid Owner';
@@ -7,4 +6,4 @@ class ProjectNotFoundException extends Error {
     }
   }
   
-  export default ProjectNotFoundException;
+  export default InvalidOwnerException;

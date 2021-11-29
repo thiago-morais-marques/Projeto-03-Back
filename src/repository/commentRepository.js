@@ -1,6 +1,6 @@
 class CommentRepository {
-  constructor(Model) {
-    this.commentModel = Model;
+  constructor(model) {
+    this.commentModel = model;
   }
 
   async findAllByPostId(postId) {
