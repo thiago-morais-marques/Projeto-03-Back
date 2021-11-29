@@ -1,23 +1,19 @@
 import InvalidBodyRequestException from "../exceptions/InvalidBodyRequestException";
 import * as yup from 'yup';
 
-const postValidation = async (body) => {
+const commentValidation = async (body) => {
   const schema = yup.object().shape({
-    title: yup
-    .string()
-    .required('Required field')
-    .min(1, 'Mimimum of one charracter')
-    .max(300, 'Maximum of 300 charracters'),
+    text: yup.string().required('Required Field').min(1, 'Minimum of 1 characters').max(500, 'Maximum of 500 characters'),
     });
     try {
-      await schema.validate(body, { abortEarly: false });
+    await schema.validate(body, { abortEarly: false });
     } catch (error) {
-      const errors = error.inner.map((err) => ({
+    const errors = error.inner.map((err) => ({
         field: err.path,
         error: err.errors.length > 0 ? err.errors : err.errors[0],
-      }));
+    }));
     throw new InvalidBodyRequestException(errors);
     }
 }
 
-export { postValidation };
+export { commentValidation };

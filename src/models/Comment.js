@@ -5,7 +5,7 @@ import { Schema, model } from 'mongoose';
          type: String,
          required: true,
          minlength: 1,
-         maxlength: 150,
+         maxlength: 500,
          trim: true,
       },
       date: {

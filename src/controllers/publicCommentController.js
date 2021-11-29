@@ -13,11 +13,9 @@ const commentRepository = new CommentRepository(Comment)
 const commentService = new CommentService (commentRepository, postRepository)
 
 router.get('/:postId', async (req, res, next) => {
-  try {
-     
+  try { 
     const { postId } = req.params;
     const comments = await commentService.findAllByPostId(postId);
-  
     res.json(comments);
   } catch (error) {
     next(error);

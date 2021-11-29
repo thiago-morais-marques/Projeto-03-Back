@@ -50,6 +50,10 @@ class PostRepository {
     await this.postModel.findByIdAndUpdate(postId, { $push: { comments: commentId } });
   }
 
+  async removeCommentId(postId, commentId) {
+    await this.postModel.findByIdAndUpdate(postId, { $pull: { tasks: commentId } });
+  }
+
   async deleteOneById(postId) {
     await this.postModel.findByIdAndDelete(postId);    
   }

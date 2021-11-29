@@ -1,4 +1,5 @@
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
+import { idValidation } from '../validation/idValidation';
 import { postValidation } from '../validation/postValidation';
 class PostService {
   constructor(repository) {
@@ -29,6 +30,7 @@ class PostService {
   }
 
   async updateOnePost(postId, ownerId, body) {
+    idValidation(postId);
     await postValidation(body);
     await this.validateOwnership(postId, ownerId);
     const infoToUpdate = { title: body.title, text: body.text }
@@ -37,6 +39,7 @@ class PostService {
   }
 
   async deleteOne(postId, ownerId) {
+    idValidation(postId);
     await this.validateOwnership(postId, ownerId);
     await this.postRepository.deleteOneById(postId);
   }

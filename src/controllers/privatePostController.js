@@ -20,29 +20,29 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/:postId', async (req, res, next) => {
-    try {
-      const { postId } = req.params;
-      const { body } = req;
-      /* console.log(postId);
-      console.log(body);
-      console.log(req.user.id); */
-      const editedPost = await postsService.updateOnePost(postId, req.user.id, body);
-      res.json(editedPost);
-    } catch (error) {
-      next(error)
-    }
+  try {
+    const { postId } = req.params;
+    const { body } = req;
+    /* console.log(postId);
+    console.log(body);
+    console.log(req.user.id); */
+    const editedPost = await postsService.updateOnePost(postId, req.user.id, body);
+    res.json(editedPost);
+  } catch (error) {
+    next(error)
+  }
   });
 
 router.delete('/:postId', async (req, res, next) => {
-try {
+  try {
     const { postId } = req.params;
     console.log(postId);
     console.log(req.user.id);
     const deletePost = await postsService.deleteOne(postId, req.user.id);
     res.json(deletePost);
-} catch (error) {
+  } catch (error) {
     next(error)
-}
+  }
 });
 
 export default router;
