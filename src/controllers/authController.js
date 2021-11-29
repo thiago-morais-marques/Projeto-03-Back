@@ -10,6 +10,7 @@ const authRepository = new AuthRepository(User);
 const authService = new AuthService(authRepository);
 
 router.post('/register', async (req, res, next) => {
+  
   try {
     const { body } = req;
 
