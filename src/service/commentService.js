@@ -2,11 +2,21 @@ import * as yup from 'yup';
 import mongoose from 'mongoose';
 
 import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
+import CommentNotFoundException from '../exceptions/CommentNotFoundException';
 class CommentService {
   constructor(commentRepository, postRepository, postService) {
     this.commentRepository = commentRepository;
     this.postRepository = postRepository;
     this.postService = postService;
+  }
+
+  async findTaskAndValidateOwnership(commentId, ownerId) {
+    const comment = await this.commentRepository.findById(commentId);
+    if (!comment) {
+      throw new CommentNotFoundException();
+    }
+    await this.postService.validateOwnership(comment.post, ownerId);
+    return comment;
   }
 
   async findAllByPostId(postId) {
