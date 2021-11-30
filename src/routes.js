@@ -1,15 +1,14 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
+
 import authController from './controllers/authController';
+import adminController from './controllers/adminController';
+import accountController from './controllers/accountController';
 import privateCommentController from './controllers/privateCommentController';
 import privatePostController from './controllers/privatePostController';
 import publicCommentController from './controllers/publicCommentController';
 import publicPostController from './controllers/publicPostController';
 import NotAuthenticatedException from './exceptions/NotAuthenticatedException';
-import adminController from './controllers/adminController';
-import accountController from './controllers/accountController';
-
-
 
 const router = Router();
 
@@ -41,10 +40,5 @@ router.use('/posts', privatePostController);
 router.use('/comments', privateCommentController); 
 router.use('/admin', adminController); 
 router.use('/account', accountController); 
-
-
-
-
-
 
 export default router;

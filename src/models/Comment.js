@@ -1,33 +1,31 @@
 import { Schema, model } from 'mongoose';
 
-   const commentSchema = new Schema({
-      text: {
-         type: String,
-         required: true,
-         minlength: 1,
-         maxlength: 500,
-         trim: true,
+const commentSchema = new Schema({
+   text: {
+      type: String,
+      required: true,
+      maxlength: 500,
+      trim: true,
+   },
+   imageURL: {
+      type: String, 
       },
-      imageURL: {
-         type: String, 
-         required: true, 
-       },
-      date: {
-         type: Date,
-         default: Date.now
+   date: {
+      type: Date,
+      default: Date.now
+   },
+   post: {
+      type: Schema.Types.ObjectId,
+      ref: 'post'
+   },
+   owner: { 
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
       },
-      post: {
-         type: Schema.Types.ObjectId,
-         ref: 'post'
-      },
-      owner: { 
-         type: Schema.Types.ObjectId,
-         ref: 'user',
-         required: true,
-       },
-   }, {
-      timestamps: true,
-   })
+}, {
+   timestamps: true,
+})
 
 const Comment = model('comment', commentSchema);
 // // // // 

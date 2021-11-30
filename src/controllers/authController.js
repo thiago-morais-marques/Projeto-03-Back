@@ -13,9 +13,7 @@ router.post('/register', async (req, res, next) => {
   
   try {
     const { body } = req;
-
     const newUser = await authService.register(body);
-
     res.json(newUser);
   } catch (error) {
     next(error);

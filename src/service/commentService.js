@@ -2,10 +2,16 @@ import CommentNotFoundException from '../exceptions/CommentNotFoundException';
 import { commentValidation } from '../validation/commentValidation';
 import { idValidation } from '../validation/idValidation';
 class CommentService {
-  constructor(commentRepository, postRepository, postService) {
+  constructor(commentRepository, postRepository) {
     this.commentRepository = commentRepository;
     this.postRepository = postRepository;
-    this.postService = postService;
+  }
+
+  async validateOwnership(commentId, ownerId) {
+    const ownership = await this.commentRepository.findOneByIdAndOwnerId(commentId, ownerId);
+    if (!ownership) {
+      throw new InvalidOwnerException();
+    }
   }
 
   async findCommentIdAndValidateOwnership(commentId, ownerId) {
@@ -13,10 +19,7 @@ class CommentService {
     if (!comment) {
       throw new CommentNotFoundException();
     }
-    // console.log(commentId);
-    // console.log(ownerId);
-    // console.log(comment.post);
-    await this.postService.validateOwnership(comment.post, ownerId);
+    await this.validateOwnership(commentId, ownerId);
     return comment;
   }
 

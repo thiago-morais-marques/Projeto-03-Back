@@ -1,25 +1,21 @@
 import mongoose from 'mongoose';
 
 import InvalidIdException from '../exceptions/InvalidIdException';
+import { idValidation } from '../validation/idValidation';
 
 class PostRepository {
   constructor(model) {
     this.postModel = model;
   }
 
-  async getAll(title/* , userId */) {
+  async getAll(title) {
     const posts = await this.postModel.find({
       title: { $regex: new RegExp(title, 'i') },
-      /* owner: userId, */
     });
     return posts;
   }
 
   async getOne(id) {
-    if (!mongoose.isValidObjectId(id)) {
-      throw new InvalidIdException();
-    }
-
     const posts = await this.postModel.findById(id).populate('comments');
     return posts;
   }
@@ -27,6 +23,13 @@ class PostRepository {
   async create(body, userId) {
     const newPost = await this.postModel.create({ ...body, owner: userId });
     return newPost;
+  }
+
+  async findOneById(postId) {
+    const post = await this.postModel.findOne({
+      _id: postId,
+    }).populate('comments');
+    return post;
   }
 
   async findOneByIdAndOwnerId(postId, ownerId) {
@@ -46,16 +49,16 @@ class PostRepository {
     return editedPost;
   }
 
+  async deleteOneById(postId) {
+    await this.postModel.findByIdAndDelete(postId);    
+  }
+
   async insertCommentId(postId, commentId) {
     await this.postModel.findByIdAndUpdate(postId, { $push: { comments: commentId } });
   }
 
   async removeCommentId(postId, commentId) {
-    await this.postModel.findByIdAndUpdate(postId, { $pull: { tasks: commentId } });
-  }
-
-  async deleteOneById(postId) {
-    await this.postModel.findByIdAndDelete(postId);    
+    await this.postModel.findByIdAndUpdate(postId, { $pull: { comments: commentId } });
   }
 }
 

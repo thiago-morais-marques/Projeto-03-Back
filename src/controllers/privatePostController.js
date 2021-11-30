@@ -3,11 +3,17 @@ import { Router } from 'express';
 import Post from '../models/Post';
 import PostService from '../service/postService';
 import PostRepository from '../repository/postRepository';
+import User from '../models/User';
+import AuthRepository from '../repository/authRepository';
+import Comment from '../models/Comment';
+import CommentRepository from '../repository/commentRepository';
 
 const router = Router();
 
 const postsRepository = new PostRepository(Post);
-const postsService = new PostService(postsRepository);
+const authRepository = new AuthRepository(User);
+const commentRepository = new CommentRepository(Comment);
+const postsService = new PostService(postsRepository, authRepository, commentRepository);
 
 router.post('/', async (req, res, next) => {
   try {
@@ -23,9 +29,6 @@ router.put('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { body } = req;
-    /* console.log(postId);
-    console.log(body);
-    console.log(req.user.id); */
     const editedPost = await postsService.updateOnePost(postId, req.user.id, body);
     res.json(editedPost);
   } catch (error) {
@@ -36,7 +39,7 @@ router.put('/:postId', async (req, res, next) => {
 router.delete('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
-    console.log(postId);
+    console.log(postId)
     console.log(req.user.id);
     const deletePost = await postsService.deleteOne(postId, req.user.id);
     res.json(deletePost);

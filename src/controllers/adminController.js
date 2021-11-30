@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import Post from '../models/Post';
 import PostRepository from '../repository/postRepository';
 import PostService from '../service/postService';
@@ -17,9 +18,6 @@ router.put('/:userId', async (req, res, next) => {
   try {
     const { commentId } = req.params;
     const { body } = req;
-    // console.log(commentId);
-    // console.log(body);
-    // console.log(req.user.id);
     const editedComment = await commentService.updateOne(commentId, req.user.id, body);
     res.status(200).json(editedComment);
   } catch (error) {
@@ -30,8 +28,6 @@ router.put('/:userId', async (req, res, next) => {
 router.delete('/:userId', async (req, res, next) => {
   try {
     const { commentId } = req.params;
-    // console.log(commentId);
-    // console.log(req.user.id);
     const deleteComment = await commentService.deleteOne(commentId, req.user.id);
     res.status(204).json(deleteComment);
   } catch (error) {
@@ -40,5 +36,3 @@ router.delete('/:userId', async (req, res, next) => {
 });
 
 export default router;
-
-

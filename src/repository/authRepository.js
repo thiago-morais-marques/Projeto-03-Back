@@ -13,6 +13,11 @@ class AuthRepository {
       return user;
     }
 
+    async findUserById(userId) {
+      const user = await this.authModel.findOne({ _id: userId });
+      return user;
+    }
+
     async updateUserById(userId, userData) {
       const editedUser = await this.authModel.findByIdAndUpdate(
         userId,
@@ -31,7 +36,14 @@ class AuthRepository {
     await this.authModel.findByIdAndDelete(userId);    
   }
 
+  async insertPostIntoUserProfile(userId, postId) {
+    await this.authModel.findByIdAndUpdate(userId, { $push: { posts: postId } });
   }
+
+  async removePostFromUserProfile(userId, postId) {
+    await this.authModel.findByIdAndUpdate(userId, { $pull: { posts: postId } });
+  }
+}
   
-  export default AuthRepository;
+export default AuthRepository;
   

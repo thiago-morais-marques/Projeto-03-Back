@@ -1,9 +1,12 @@
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
+import PostNotFoundException from '../exceptions/PostNotFoundException';
 import { idValidation } from '../validation/idValidation';
 import { postValidation } from '../validation/postValidation';
 class PostService {
-  constructor(repository) {
-    this.postRepository = repository;
+  constructor(postRepository, authRepository, commentRepository) {
+    this.postRepository = postRepository;
+    this.authRepository = authRepository;
+    this.commentRepository = commentRepository;
   }
 
   async validateOwnership(postId, ownerId) {
@@ -13,12 +16,22 @@ class PostService {
     }
   }
 
-  async getAllByFilter(title = ''/* , userId */) {
-    const posts = await this.postRepository.getAll(title/* , userId */);
+  async findPostIdAndValidateOwnership(postId, ownerId) {
+    const post = await this.postRepository.findByPostId(postId);
+    if (!post) {
+      throw new PostNotFoundException();
+    }
+    await this.validateOwnership(postId, ownerId);
+    return post;
+  }
+
+  async getAllByFilter(title = '') {
+    const posts = await this.postRepository.getAll(title);
     return posts;
   }
 
   async getOne(id) {
+    idValidation(id);
     const post = await this.postRepository.getOne(id);
     return post;
   }
@@ -26,6 +39,7 @@ class PostService {
   async create(body, userId) {
     await postValidation(body);
     const newPost = await this.postRepository.create(body, userId);
+      await this.authRepository.insertPostIntoUserProfile(userId, newPost._id);
     return newPost;
   }
 
@@ -41,7 +55,10 @@ class PostService {
   async deleteOne(postId, ownerId) {
     idValidation(postId);
     await this.validateOwnership(postId, ownerId);
-    await this.postRepository.deleteOneById(postId);
+    const deletePost = await this.postRepository.deleteOneById(postId);
+      await this.authRepository.removePostFromUserProfile(ownerId, postId); // se der erro ele continua e deleta (RESOLVER!!!)
+      await this.commentRepository.deleteAll(postId); // Aqui também!
+    return deletePost;
   }
 }
 

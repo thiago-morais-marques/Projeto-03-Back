@@ -3,7 +3,7 @@ import * as yup from 'yup';
 
 const commentValidation = async (body) => {
   const schema = yup.object().shape({
-    text: yup.string().required('Required Field').min(1, 'Minimum of 1 characters').max(500, 'Maximum of 500 characters'),
+    text: yup.string().required('Required Field').max(500, 'Maximum of 500 characters'),
     });
     try {
     await schema.validate(body, { abortEarly: false });

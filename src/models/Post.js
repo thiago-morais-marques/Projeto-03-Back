@@ -7,33 +7,33 @@ import { Schema, model } from 'mongoose';
       minlength: 1,
       maxlength: 300,
       trim: true,
-      },
-      imageURL: {
-        type: String, 
-        required: true, 
-      },
-      tag: {
-        type: Array,
-        default: [],
-      },
-      text: {
-        type: String,
-        required: true,
-      },
-      date: {
-        type: Date,
-        default: Date.now
-      },
-      comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'comment',
-        default: [],
-      }],
-      owner: { 
-        type: Schema.Types.ObjectId,
-        ref: 'user',
-        required: true,
-      }
+    },
+    imageURL: {
+      type: String,
+      required: true,
+    },
+    tag: [{
+      type: String,
+      default: [],
+    }],
+    text: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      default: Date.now
+    },
+    comments: [{
+      type: Schema.Types.ObjectId,
+      ref: 'comment',
+      default: [],
+    }],
+    owner: { 
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+    }
   }, {
     timestamps: true,
   });

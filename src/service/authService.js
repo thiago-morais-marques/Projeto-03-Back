@@ -1,6 +1,7 @@
 /* eslint-disable class-methods-use-this */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+
 import EmailAlreadyInUseException from '../exceptions/EmailAlreadyInUseException';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import { registerSchema, loginSchema } from '../validation/authValidation';
@@ -47,8 +48,12 @@ class AuthService {
   async editUser(userId, body) {
     await editUserValidation(body);
     idValidation(userId);
-    const userData = {name: body.name, email: body.email, password: body.password};
-    const editedUser = await this.authRepository.updateUserById(userId, userData);
+    const salt = bcrypt.genSaltSync(10);
+    const userWithEncryptedPassword = {
+      ...body,
+      password: bcrypt.hashSync(body.password, salt),
+    };
+    const editedUser = await this.authRepository.updateUserById(userId, userWithEncryptedPassword);
     return editedUser;
   }
 
@@ -61,9 +66,6 @@ class AuthService {
     idValidation(userId);
     await this.authRepository.deleteOneById(userId);
   }
-
 }
-
-
 
 export default AuthService;
