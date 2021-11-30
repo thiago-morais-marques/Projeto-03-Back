@@ -32,4 +32,14 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+router.get('/', async (req, res, next) => {
+  try { 
+    const { name } = req.query;
+    const users = await authService.findAllUsers(name);
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default router;

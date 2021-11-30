@@ -1,11 +1,9 @@
 import { Router } from 'express';
-
 import Post from '../models/Post';
 import PostService from '../service/postService';
 import PostRepository from '../repository/postRepository';
 
 const router = Router();
-
 const postRepository = new PostRepository(Post);
 const postService = new PostService(postRepository);
 

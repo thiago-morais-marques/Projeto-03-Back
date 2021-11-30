@@ -8,6 +8,10 @@ import { Schema, model } from 'mongoose';
          maxlength: 500,
          trim: true,
       },
+      imageURL: {
+         type: String, 
+         required: true, 
+       },
       date: {
          type: Date,
          default: Date.now

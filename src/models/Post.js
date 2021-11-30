@@ -8,6 +8,14 @@ import { Schema, model } from 'mongoose';
       maxlength: 300,
       trim: true,
       },
+      imageURL: {
+        type: String, 
+        required: true, 
+      },
+      tag: {
+        type: Array,
+        default: [],
+      },
       text: {
         type: String,
         required: true,
