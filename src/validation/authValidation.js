@@ -1,5 +1,5 @@
-import InvalidBodyRequestException from "../exceptions/InvalidBodyRequestException";
 import * as yup from 'yup';
+import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 
 const registerSchema = async (body) => {
   const schema = yup.object().shape({
@@ -9,7 +9,7 @@ const registerSchema = async (body) => {
     role: yup.string().oneOf(['user', 'admin']),
     active: yup.boolean().oneOf([true, false]),
   });
-    
+
   try {
         await schema.validate(body, { abortEarly: false });
   } catch (error) {
@@ -17,10 +17,10 @@ const registerSchema = async (body) => {
     field: err.path,
     error: err.errors.length > 0 ? err.errors : err.errors[0],
   }));
-    
+
     throw new InvalidBodyRequestException(errors);
   }
-}
+};
 
 export { registerSchema };
 
@@ -40,6 +40,6 @@ const loginSchema = async (body) => {
 
     throw new InvalidBodyRequestException(errors);
     }
-}
+};
 
 export { loginSchema };

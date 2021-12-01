@@ -1,3 +1,5 @@
+// Rotas para criação, edição e deleção de Comentários
+
 import { Router } from 'express';
 
 import Post from '../models/Post';
@@ -15,6 +17,7 @@ const authRepository = new AuthRepository(User);
 const commentRepository = new CommentRepository(Comment);
 const postsService = new PostService(postsRepository, authRepository, commentRepository);
 
+// Rota de Criação de Comment
 router.post('/', async (req, res, next) => {
   try {
     const { body } = req;
@@ -25,6 +28,7 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// Rota de Edição de Comment
 router.put('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
@@ -32,19 +36,18 @@ router.put('/:postId', async (req, res, next) => {
     const editedPost = await postsService.updateOnePost(postId, req.user.id, body);
     res.json(editedPost);
   } catch (error) {
-    next(error)
+    next(error);
   }
   });
 
+// Rota de Deleção de Comment
 router.delete('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
-    console.log(postId)
-    console.log(req.user.id);
     const deletePost = await postsService.deleteOne(postId, req.user.id);
     res.json(deletePost);
   } catch (error) {
-    next(error)
+    next(error);
   }
 });
 

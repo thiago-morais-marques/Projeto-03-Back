@@ -1,3 +1,5 @@
+// Função que faz a conexão com o Banco de Dados
+
 import { connect } from 'mongoose';
 
 const initDbConnection = () => {

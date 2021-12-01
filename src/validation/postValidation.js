@@ -1,5 +1,5 @@
-import InvalidBodyRequestException from "../exceptions/InvalidBodyRequestException";
 import * as yup from 'yup';
+import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 
 const postValidation = async (body) => {
   const schema = yup.object().shape({
@@ -18,6 +18,6 @@ const postValidation = async (body) => {
       }));
     throw new InvalidBodyRequestException(errors);
     }
-}
+};
 
-export { postValidation };
+export default postValidation;

@@ -1,3 +1,5 @@
+// Modelo de Comentários para o banco de dados
+
 import { Schema, model } from 'mongoose';
 
 const commentSchema = new Schema({
@@ -8,26 +10,25 @@ const commentSchema = new Schema({
       trim: true,
    },
    imageURL: {
-      type: String, 
+      type: String,
       },
    date: {
       type: Date,
-      default: Date.now
+      default: Date.now,
    },
    post: {
       type: Schema.Types.ObjectId,
-      ref: 'post'
+      ref: 'post',
    },
-   owner: { 
+   owner: {
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true,
       },
 }, {
    timestamps: true,
-})
+});
 
 const Comment = model('comment', commentSchema);
-// // // // 
 
 export default Comment;

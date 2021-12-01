@@ -16,7 +16,7 @@ const router = Router();
 router.use('/auth', authController); // /api/auth
 router.use('/posts', publicPostController); // /api/posts
 router.use('/comments', publicCommentController); // /api/comments
- 
+
 router.use((req, res, next) => {
   const bearerToken = req.get('Authorization');
   if (!bearerToken) {
@@ -37,8 +37,8 @@ router.use((req, res, next) => {
 
 // Rotas Privadas
 router.use('/posts', privatePostController);
-router.use('/comments', privateCommentController); 
-router.use('/admin', adminController); 
-router.use('/account', accountController); 
+router.use('/comments', privateCommentController);
+router.use('/admin', adminController);
+router.use('/account', accountController);
 
 export default router;

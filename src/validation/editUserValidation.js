@@ -1,5 +1,5 @@
-import InvalidBodyRequestException from "../exceptions/InvalidBodyRequestException";
 import * as yup from 'yup';
+import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 
 const editUserValidation = async (body) => {
   const schema = yup.object().shape({
@@ -18,7 +18,7 @@ const editUserValidation = async (body) => {
     }));
     throw new InvalidBodyRequestException(errors);
     }
-}
+};
 
 export { editUserValidation };
 
@@ -35,6 +35,6 @@ const userBlockValidation = async (body) => {
     }));
     throw new InvalidBodyRequestException(errors);
     }
-}
+};
 
 export { userBlockValidation };

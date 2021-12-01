@@ -1,4 +1,3 @@
-/* eslint-disable class-methods-use-this */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -6,7 +5,8 @@ import EmailAlreadyInUseException from '../exceptions/EmailAlreadyInUseException
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import { registerSchema, loginSchema } from '../validation/authValidation';
 import { editUserValidation, userBlockValidation } from '../validation/editUserValidation';
-import { idValidation } from '../validation/idValidation';
+import idValidation from '../validation/idValidation';
+
 class AuthService {
   constructor(repository) {
     this.authRepository = repository;
@@ -64,7 +64,7 @@ class AuthService {
     return blockedUser;
   }
 
-  async findAllUsers (name='') {
+  async findAllUsers(name = '') {
     const users = await this.authRepository.findAllByUserName(name);
     return users;
   }

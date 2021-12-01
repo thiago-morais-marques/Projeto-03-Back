@@ -1,7 +1,8 @@
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
-import { idValidation } from '../validation/idValidation';
-import { postValidation } from '../validation/postValidation';
+import idValidation from '../validation/idValidation';
+import postValidation from '../validation/postValidation';
+
 class PostService {
   constructor(postRepository, authRepository, commentRepository) {
     this.postRepository = postRepository;
@@ -47,7 +48,7 @@ class PostService {
     idValidation(postId);
     await postValidation(body);
     await this.validateOwnership(postId, ownerId);
-    const infoToUpdate = { title: body.title, text: body.text }
+    const infoToUpdate = { title: body.title, text: body.text };
     const editedPost = await this.postRepository.updatePostById(postId, infoToUpdate);
     return editedPost;
   }
@@ -56,9 +57,18 @@ class PostService {
     idValidation(postId);
     await this.validateOwnership(postId, ownerId);
     const deletePost = await this.postRepository.deleteOneById(postId);
-      await this.authRepository.removePostFromUserProfile(ownerId, postId); // se der erro ele continua e deleta (RESOLVER!!!)
-      await this.commentRepository.deleteAll(postId); // Aqui também!
+    await this.authRepository.removePostFromUserProfile(ownerId, postId);
+    await this.commentRepository.deleteAll(postId);
     return deletePost;
+  }
+
+  async adminDeletePost(postId) {
+    idValidation(postId);
+    const deletedPost = await this.postRepository.deleteOneById(postId);
+    const postOwner = { owner: deletedPost.owner };
+    await this.authRepository.removePostFromUserProfile(postOwner, postId);
+    await this.commentRepository.deleteAll(postId);
+    return deletedPost;
   }
 }
 

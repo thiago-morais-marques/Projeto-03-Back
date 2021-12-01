@@ -6,6 +6,6 @@ const idValidation = (id) => {
   if (!isIdValid) {
     throw new InvalidIdException();
   }
-}
+};
 
-export { idValidation };
+export default idValidation;

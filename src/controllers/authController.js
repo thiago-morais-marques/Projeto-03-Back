@@ -1,3 +1,5 @@
+// Rotas para criar usuário e fazer login
+
 import { Router } from 'express';
 
 import User from '../models/User';
@@ -9,8 +11,8 @@ const router = Router();
 const authRepository = new AuthRepository(User);
 const authService = new AuthService(authRepository);
 
+// Rota para criação de usuário
 router.post('/register', async (req, res, next) => {
-  
   try {
     const { body } = req;
     const newUser = await authService.register(body);
@@ -20,6 +22,7 @@ router.post('/register', async (req, res, next) => {
   }
 });
 
+// Rota para login de usuário
 router.post('/login', async (req, res, next) => {
   try {
     const { body } = req;
@@ -30,8 +33,10 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+// Rota para listar usuários.
+// Apenas para teste no Insomnia! Não será usada no Front
 router.get('/', async (req, res, next) => {
-  try { 
+  try {
     const { name } = req.query;
     const users = await authService.findAllUsers(name);
     res.json(users);

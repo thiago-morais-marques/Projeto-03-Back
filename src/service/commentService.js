@@ -1,6 +1,8 @@
 import CommentNotFoundException from '../exceptions/CommentNotFoundException';
-import { commentValidation } from '../validation/commentValidation';
-import { idValidation } from '../validation/idValidation';
+import InvalidOwnerException from '../exceptions/InvalidOwnerException';
+import commentValidation from '../validation/commentValidation';
+import idValidation from '../validation/idValidation';
+
 class CommentService {
   constructor(commentRepository, postRepository) {
     this.commentRepository = commentRepository;
@@ -27,12 +29,16 @@ class CommentService {
     const comments = await this.commentRepository.findAllByPostId(postId);
     return comments;
   }
-  
+
   async create(body, postId, ownerId) {
     await commentValidation(body);
     idValidation(postId);
-    const savedComment = await this.commentRepository.createNewComment({ ...body, post: postId, owner: ownerId });
-      await this.postRepository.insertCommentId(postId, savedComment._id);
+    const savedComment = await this.commentRepository.createNewComment({
+      ...body,
+      post: postId,
+      owner: ownerId,
+    });
+    await this.postRepository.insertCommentId(postId, savedComment._id);
     return savedComment;
   }
 
@@ -40,7 +46,7 @@ class CommentService {
     await commentValidation(body);
     idValidation(commentId);
     await this.findCommentIdAndValidateOwnership(commentId, ownerId);
-    const commentData = {text: body.text};
+    const commentData = { text: body.text };
     const editedComment = await this.commentRepository.updateCommentById(commentId, commentData);
     return editedComment;
   }
@@ -50,6 +56,14 @@ class CommentService {
     const comment = await this.findCommentIdAndValidateOwnership(commentId, ownerId);
     await this.commentRepository.deleteOne(commentId);
     await this.postRepository.removeCommentId(comment.post, commentId);
+  }
+
+  async adminDeleteComment(commentId) {
+    idValidation(commentId);
+    const deletedComment = await this.commentRepository.deleteOne(commentId);
+    const commentOwner = { owner: deletedComment.owner };
+    await this.postRepository.removeCommentId(commentOwner, commentId);
+    return deletedComment;
   }
 }
 

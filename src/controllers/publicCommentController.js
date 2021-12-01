@@ -1,3 +1,5 @@
+// Rotas de listagem de comentários
+
 import { Router } from 'express';
 
 import Post from '../models/Post';
@@ -9,11 +11,12 @@ import CommentRepository from '../repository/commentRepository';
 const router = Router();
 
 const postRepository = new PostRepository(Post);
-const commentRepository = new CommentRepository(Comment)
-const commentService = new CommentService (commentRepository, postRepository)
+const commentRepository = new CommentRepository(Comment);
+const commentService = new CommentService(commentRepository, postRepository);
 
+// Rota de listagem de commentários em um Post
 router.get('/:postId', async (req, res, next) => {
-  try { 
+  try {
     const { postId } = req.params;
     const comments = await commentService.findAllByPostId(postId);
     res.json(comments);
@@ -21,5 +24,5 @@ router.get('/:postId', async (req, res, next) => {
     next(error);
   }
 });
-  
+
 export default router;

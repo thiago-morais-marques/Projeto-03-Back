@@ -1,13 +1,11 @@
-import mongoose from 'mongoose';
-
-import InvalidIdException from '../exceptions/InvalidIdException';
-import { idValidation } from '../validation/idValidation';
+// Classe que faz a conexão com o modelo de Post usando os métodos do mongoose
 
 class PostRepository {
   constructor(model) {
     this.postModel = model;
   }
 
+  // busca todos os posts pelo título
   async getAll(title) {
     const posts = await this.postModel.find({
       title: { $regex: new RegExp(title, 'i') },
@@ -15,6 +13,7 @@ class PostRepository {
     return posts;
   }
 
+  // busca um post pelo ID e coloca os comentários lá
   async getOne(id) {
     const posts = await this.postModel.findById(id).populate('comments');
     return posts;
@@ -42,15 +41,19 @@ class PostRepository {
 
   async updatePostById(postId, infoToUpdate) {
     const editedPost = await this.postModel.findByIdAndUpdate(
-    { _id: postId }, 
-    infoToUpdate, 
+    { _id: postId },
+    infoToUpdate,
     { new: true },
     );
     return editedPost;
   }
 
   async deleteOneById(postId) {
-    await this.postModel.findByIdAndDelete(postId);    
+    await this.postModel.findByIdAndDelete(postId);
+  }
+
+  async deleteAllById(postId) {
+    await this.postModel.deleteMany({ _id: postId });
   }
 
   async insertCommentId(postId, commentId) {

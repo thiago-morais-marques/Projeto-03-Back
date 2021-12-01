@@ -1,5 +1,5 @@
-import InvalidBodyRequestException from "../exceptions/InvalidBodyRequestException";
 import * as yup from 'yup';
+import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 
 const commentValidation = async (body) => {
   const schema = yup.object().shape({
@@ -14,6 +14,6 @@ const commentValidation = async (body) => {
     }));
     throw new InvalidBodyRequestException(errors);
     }
-}
+};
 
-export { commentValidation };
+export default commentValidation;
