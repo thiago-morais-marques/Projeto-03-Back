@@ -27,6 +27,15 @@ class AuthRepository {
       return editedUser;
     }
 
+    async adminBlockUser(userId, body) {
+      const blockedUser = await this.authModel.findByIdAndUpdate( 
+        {_id: userId},
+        {active: body.active},
+        { new: true },
+      );
+      return blockedUser;
+    }
+
     async findAllByUserName(name) {
       const users = await this.authModel.find({ name: { $regex: new RegExp(name, 'i') }});
       return users;

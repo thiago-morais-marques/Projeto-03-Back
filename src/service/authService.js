@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import EmailAlreadyInUseException from '../exceptions/EmailAlreadyInUseException';
 import InvalidCredentialsException from '../exceptions/InvalidCredentialsException';
 import { registerSchema, loginSchema } from '../validation/authValidation';
-import { editUserValidation } from '../validation/editUserValidation';
+import { editUserValidation, userBlockValidation } from '../validation/editUserValidation';
 import { idValidation } from '../validation/idValidation';
 class AuthService {
   constructor(repository) {
@@ -55,6 +55,13 @@ class AuthService {
     };
     const editedUser = await this.authRepository.updateUserById(userId, userWithEncryptedPassword);
     return editedUser;
+  }
+
+  async blockUser(userId, body) {
+    await userBlockValidation(body);
+    idValidation(userId);
+    const blockedUser = await this.authRepository.adminBlockUser(userId, body);
+    return blockedUser;
   }
 
   async findAllUsers (name='') {

@@ -2,7 +2,6 @@ import { Router } from 'express';
 
 import Post from '../models/Post';
 import PostRepository from '../repository/postRepository';
-// import PostService from '../service/postService';
 import Comment from '../models/Comment';
 import CommentRepository from '../repository/commentRepository';
 import CommentService from '../service/commentService';
@@ -11,8 +10,7 @@ const router = Router();
 
 const commentRepository = new CommentRepository(Comment);
 const postRepository = new PostRepository(Post);
-// const postService = new PostService(postRepository, commentRepository);
-const commentService = new CommentService(commentRepository, postRepository/* , postService */);
+const commentService = new CommentService(commentRepository, postRepository);
 
 router.post('/:postId', async (req, res, next) => {
   try {
