@@ -1,3 +1,5 @@
+// usa o mongoose para fazer a validação da ID
+
 import mongoose from 'mongoose';
 import InvalidIdException from '../exceptions/InvalidIdException';
 

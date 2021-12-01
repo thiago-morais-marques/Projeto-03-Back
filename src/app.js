@@ -1,3 +1,5 @@
+// o app inicia por este arquivo
+
 import express from 'express';
 import dotenv from 'dotenv';
 // import cors from 'cors';

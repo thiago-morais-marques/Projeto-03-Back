@@ -1,3 +1,5 @@
+// usa o YUP para fazer a validação das informações passadas
+
 import * as yup from 'yup';
 import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestException';
 

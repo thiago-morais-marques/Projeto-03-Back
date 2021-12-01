@@ -1,3 +1,5 @@
+// Classe que faz validações e cria métodos para serem usados no controller
+
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
 import PostNotFoundException from '../exceptions/PostNotFoundException';
 import idValidation from '../validation/idValidation';
@@ -10,6 +12,7 @@ class PostService {
     this.commentRepository = commentRepository;
   }
 
+  // verifica a titularidade de um post
   async validateOwnership(postId, ownerId) {
     const ownership = await this.postRepository.findOneByIdAndOwnerId(postId, ownerId);
     if (!ownership) {
@@ -17,8 +20,9 @@ class PostService {
     }
   }
 
+  // encontra um post pelo ID e verifica sua titularidade
   async findPostIdAndValidateOwnership(postId, ownerId) {
-    const post = await this.postRepository.findByPostId(postId);
+    const post = await this.postRepository.getOne(postId);
     if (!post) {
       throw new PostNotFoundException();
     }
@@ -26,17 +30,20 @@ class PostService {
     return post;
   }
 
+  // lista todos os posts de acordo com o título
   async getAllByFilter(title = '') {
     const posts = await this.postRepository.getAll(title);
     return posts;
   }
 
+  // lista apenas um post de acordo com o ID passado
   async getOne(id) {
     idValidation(id);
     const post = await this.postRepository.getOne(id);
     return post;
   }
 
+  // cria um post
   async create(body, userId) {
     await postValidation(body);
     const newPost = await this.postRepository.create(body, userId);
@@ -44,24 +51,27 @@ class PostService {
     return newPost;
   }
 
+  // método para o usuário atualizar as informações de um post
   async updateOnePost(postId, ownerId, body) {
     idValidation(postId);
     await postValidation(body);
-    await this.validateOwnership(postId, ownerId);
+    await this.findPostIdAndValidateOwnership(postId, ownerId);
     const infoToUpdate = { title: body.title, text: body.text };
     const editedPost = await this.postRepository.updatePostById(postId, infoToUpdate);
     return editedPost;
   }
 
+  // método para o usuário deletar um post
   async deleteOne(postId, ownerId) {
     idValidation(postId);
-    await this.validateOwnership(postId, ownerId);
+    await this.findPostIdAndValidateOwnership(postId, ownerId);
     const deletePost = await this.postRepository.deleteOneById(postId);
     await this.authRepository.removePostFromUserProfile(ownerId, postId);
     await this.commentRepository.deleteAll(postId);
     return deletePost;
   }
 
+  // método para o Admin deletar qualquer post
   async adminDeletePost(postId) {
     idValidation(postId);
     const deletedPost = await this.postRepository.deleteOneById(postId);

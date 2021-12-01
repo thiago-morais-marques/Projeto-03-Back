@@ -1,3 +1,6 @@
+/* Classe que faz validações, criptografia, gera o token e cria métodos
+para serem usados no controller */
+
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -12,6 +15,7 @@ class AuthService {
     this.authRepository = repository;
   }
 
+  // faz o registro do usuário e criptografia da senha
   async register(body) {
     await registerSchema(body);
     const user = await this.authRepository.findUserByEmail(body.email);
@@ -27,6 +31,7 @@ class AuthService {
     return newUser;
   }
 
+  // faz o login do usuário e gera o token
   async authenticate(body) {
     await loginSchema(body);
     const user = await this.authRepository.findUserByEmail(body.email);
@@ -45,6 +50,7 @@ class AuthService {
     return { token };
   }
 
+  // faz a edição dos dados do usuário
   async editUser(userId, body) {
     await editUserValidation(body);
     idValidation(userId);
@@ -57,6 +63,7 @@ class AuthService {
     return editedUser;
   }
 
+  // torna o usuário inativo (bloqueado)
   async blockUser(userId, body) {
     await userBlockValidation(body);
     idValidation(userId);
@@ -64,11 +71,13 @@ class AuthService {
     return blockedUser;
   }
 
+  // lista todos os usuários
   async findAllUsers(name = '') {
     const users = await this.authRepository.findAllByUserName(name);
     return users;
   }
 
+  // deleta um único usuário
   async deleteUser(userId) {
     idValidation(userId);
     await this.authRepository.deleteOneById(userId);

@@ -1,3 +1,5 @@
+// Organiza as rotas públicas e privadas, além de criar middleware para verificar o token
+
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 
@@ -17,6 +19,7 @@ router.use('/auth', authController); // /api/auth
 router.use('/posts', publicPostController); // /api/posts
 router.use('/comments', publicCommentController); // /api/comments
 
+// Middleware que verifica o token
 router.use((req, res, next) => {
   const bearerToken = req.get('Authorization');
   if (!bearerToken) {
