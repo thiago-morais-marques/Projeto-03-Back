@@ -11,8 +11,10 @@ import { editUserValidation, userBlockValidation } from '../validation/editUserV
 import idValidation from '../validation/idValidation';
 
 class AuthService {
-  constructor(repository) {
-    this.authRepository = repository;
+  constructor(authRepository, postRepository, commentRepository) {
+    this.authRepository = authRepository;
+    this.postRepository = postRepository;
+    this.commentRepository = commentRepository;
   }
 
   // faz o registro do usuário e criptografia da senha
@@ -43,7 +45,7 @@ class AuthService {
       throw new InvalidCredentialsException();
     }
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { id: user._id, role: user.role, active: user.active },
       process.env.TOKEN_SECRET,
       { expiresIn: process.env.TOKEN_EXPIRATION_TIME },
     );
@@ -77,9 +79,16 @@ class AuthService {
     return users;
   }
 
-  // deleta um único usuário
+  // deleta um único usuário e mantêm os posts e comentários
   async deleteUser(userId) {
     idValidation(userId);
+    await this.authRepository.deleteOneById(userId);
+  }
+
+  async deleteUserPostsAndComments(userId) {
+    idValidation(userId);
+    await this.commentRepository.deleteAllByOwnerId(userId);
+    await this.postRepository.deleteAllById(userId);
     await this.authRepository.deleteOneById(userId);
   }
 }

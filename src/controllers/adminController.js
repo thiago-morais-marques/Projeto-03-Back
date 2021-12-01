@@ -58,7 +58,7 @@ router.put('/block/:userId', adminRoleMiddleware, async (req, res, next) => {
 router.delete('/ban/:userId', adminRoleMiddleware, async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const bannedUser = await authService.deleteUser(userId);
+    const bannedUser = await authService.deleteUserPostsAndComments(userId);
     res.json(bannedUser);
   } catch (error) {
     next(error);

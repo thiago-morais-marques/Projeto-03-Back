@@ -1,4 +1,4 @@
-// Rotas para criação, edição e deleção de Comentários
+// Rotas para criação, edição e deleção de Posts
 
 import { Router } from 'express';
 
@@ -9,6 +9,7 @@ import User from '../models/User';
 import AuthRepository from '../repository/authRepository';
 import Comment from '../models/Comment';
 import CommentRepository from '../repository/commentRepository';
+import NotAuthenticatedException from '../exceptions/NotAuthenticatedException';
 
 const router = Router();
 
@@ -17,8 +18,17 @@ const authRepository = new AuthRepository(User);
 const commentRepository = new CommentRepository(Comment);
 const postsService = new PostService(postsRepository, authRepository, commentRepository);
 
-// Rota de Criação de Comment
-router.post('/', async (req, res, next) => {
+// Middleware para checar se o usuário está ativo ou inativo
+const activeUserMiddleware = (req, res, next) => {
+  if (req.user.active === true) {
+    return next();
+  }
+
+  return next(new NotAuthenticatedException('Unauthorized'));
+};
+
+// Rota de Criação de Posts
+router.post('/', activeUserMiddleware, async (req, res, next) => {
   try {
     const { body } = req;
     const newPost = await postsService.create(body, req.user.id);
@@ -28,8 +38,8 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-// Rota de Edição de Comment
-router.put('/:postId', async (req, res, next) => {
+// Rota de Edição de Posts
+router.put('/:postId', activeUserMiddleware, async (req, res, next) => {
   try {
     const { postId } = req.params;
     const { body } = req;
@@ -40,7 +50,7 @@ router.put('/:postId', async (req, res, next) => {
   }
   });
 
-// Rota de Deleção de Comment
+// Rota de Deleção de Posts
 router.delete('/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;

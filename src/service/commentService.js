@@ -6,9 +6,10 @@ import commentValidation from '../validation/commentValidation';
 import idValidation from '../validation/idValidation';
 
 class CommentService {
-  constructor(commentRepository, postRepository) {
+  constructor(commentRepository, postRepository, authRepository) {
     this.commentRepository = commentRepository;
     this.postRepository = postRepository;
+    this.authRepository = authRepository;
   }
 
   // verifica a titularidade de um comentário
@@ -45,6 +46,7 @@ class CommentService {
       owner: ownerId,
     });
     await this.postRepository.insertCommentId(postId, savedComment._id);
+    await this.authRepository.insertCommentIntoUserProfile(ownerId, savedComment._id);
     return savedComment;
   }
 
@@ -64,6 +66,7 @@ class CommentService {
     const comment = await this.findCommentIdAndValidateOwnership(commentId, ownerId);
     await this.commentRepository.deleteOne(commentId);
     await this.postRepository.removeCommentId(comment.post, commentId);
+    await this.authRepository.removeCommentFromUserProfile(ownerId, commentId);
   }
 
   // método para um Admin deletar qualquer comentário
@@ -71,7 +74,9 @@ class CommentService {
     idValidation(commentId);
     const deletedComment = await this.commentRepository.deleteOne(commentId);
     const commentOwner = { owner: deletedComment.owner };
-    await this.postRepository.removeCommentId(commentOwner, commentId);
+    const commentPost = { post: deletedComment.post };
+    await this.postRepository.removeCommentId(commentPost, commentId);
+    await this.authRepository.removeCommentFromUserProfile(commentOwner, commentId);
     return deletedComment;
   }
 }

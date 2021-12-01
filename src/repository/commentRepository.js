@@ -51,6 +51,11 @@ class CommentRepository {
   async deleteAll(postId) {
     await this.commentModel.deleteMany({ post: postId });
   }
+
+  // deleta todos os comentários de um usuário
+  async deleteAllByOwnerId(userId) {
+    await this.commentModel.deleteMany({ owner: userId });
+  }
 }
 
 export default CommentRepository;

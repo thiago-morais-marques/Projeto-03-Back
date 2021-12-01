@@ -30,7 +30,7 @@ router.use((req, res, next) => {
 
   try {
     const tokenPayload = jwt.verify(token, process.env.TOKEN_SECRET);
-    req.user = { id: tokenPayload.id, role: tokenPayload.role };
+    req.user = { id: tokenPayload.id, role: tokenPayload.role, active: tokenPayload.active };
 
     return next();
   } catch (error) {

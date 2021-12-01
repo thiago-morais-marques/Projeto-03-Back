@@ -63,6 +63,16 @@ class AuthRepository {
   async removePostFromUserProfile(userId, postId) {
     await this.authModel.findByIdAndUpdate(userId, { $pull: { posts: postId } });
   }
+
+  // método para vincular um comentário a um usuário
+  async insertCommentIntoUserProfile(userId, commentId) {
+    await this.authModel.findByIdAndUpdate(userId, { $push: { comments: commentId } });
+  }
+
+  // método para desvincular um comentário de um usuário
+  async removeCommentFromUserProfile(userId, commentId) {
+    await this.authModel.findByIdAndUpdate(userId, { $pull: { comments: commentId } });
+  }
 }
 
 export default AuthRepository;
