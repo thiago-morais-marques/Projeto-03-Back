@@ -86,9 +86,9 @@ class PostService {
       console.log(e.id);
       return this.authRepository.removeCommentFromUserProfile(e.owner, e.id);
     });
+    const getOnePost = await this.postRepository.getOne(postId);
     const deletedPost = await this.postRepository.deleteOneById(postId);
-    const postOwner = { owner: deletedPost.owner };
-    await this.authRepository.removePostFromUserProfile(postOwner, postId);
+    await this.authRepository.removePostFromUserProfile(getOnePost.owner, postId);
     await this.commentRepository.deleteAll(postId);
     return deletedPost;
   }

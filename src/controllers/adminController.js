@@ -19,7 +19,7 @@ const authRepository = new AuthRepository(User);
 const postRepository = new PostRepository(Post);
 const commentRepository = new CommentRepository(Comment);
 const authService = new AuthService(authRepository, postRepository, commentRepository);
-const postService = new PostService(authRepository, postRepository, commentRepository);
+const postService = new PostService(postRepository, authRepository, commentRepository);
 const commentService = new CommentService(commentRepository, postRepository, authRepository);
 
 // Middleware para validação do Admin
