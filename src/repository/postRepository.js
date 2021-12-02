@@ -13,6 +13,12 @@ class PostRepository {
     return posts;
   }
 
+  // busca todos os posts pelo Id de usuário
+  async findAllByOwnerId(ownerId) {
+    const posts = await this.postModel.find({ owner: ownerId });
+    return posts;
+  }
+
   // busca um post pelo ID
   async getOne(id) {
     const posts = await this.postModel.findById(id).populate('comments');
@@ -51,7 +57,7 @@ class PostRepository {
 
   // deleta todos os posts de um usuário
   async deleteAllById(userId) {
-    await this.postModel.deleteMany({ owner: userId });
+    await this.postModel.deleteMany({ owner: userId }).populate('comments');
   }
 
   // vincula um comentário a um post

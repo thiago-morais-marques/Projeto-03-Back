@@ -85,8 +85,15 @@ class AuthService {
     await this.authRepository.deleteOneById(userId);
   }
 
+  // Deleta o usuário e todos os seus posts e comments
   async deleteUserPostsAndComments(userId) {
     idValidation(userId);
+    const foundPosts = await this.commentRepository.findAllByOwnerId(userId);
+    await foundPosts.map((e) => {
+      console.log(e.post);
+      console.log(e.id);
+      return this.postRepository.removeCommentId(e.post, e.id);
+    });
     await this.commentRepository.deleteAllByOwnerId(userId);
     await this.postRepository.deleteAllById(userId);
     await this.authRepository.deleteOneById(userId);

@@ -20,6 +20,12 @@ class CommentRepository {
     return comment;
   }
 
+  // busca todos os posts pelo Id de usuário
+  async findAllByOwnerId(ownerId) {
+    const comments = await this.commentModel.find({ owner: ownerId });
+    return comments;
+  }
+
   // acha um comentário pelo ID do comentário
   async findByCommentId(commentId) {
     const comment = await this.commentModel.findById(commentId);
@@ -44,7 +50,8 @@ class CommentRepository {
 
   // busca um comentário pelo ID e deleta ele
   async deleteOne(commentId) {
-    await this.commentModel.findByIdAndDelete(commentId);
+    const deleteComment = await this.commentModel.findByIdAndDelete(commentId);
+    return deleteComment;
   }
 
   // deleta todos os comentários do post

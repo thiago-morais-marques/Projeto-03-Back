@@ -1,6 +1,7 @@
 // Classe que faz validações e cria métodos para serem usados no controller
 
 import CommentNotFoundException from '../exceptions/CommentNotFoundException';
+import PostNotFoundException from '../exceptions/PostNotFoundException';
 import InvalidOwnerException from '../exceptions/InvalidOwnerException';
 import commentValidation from '../validation/commentValidation';
 import idValidation from '../validation/idValidation';
@@ -30,6 +31,15 @@ class CommentService {
     return comment;
   }
 
+  // verifica se o Post existe
+  async checkIfPostExists(postId) {
+    const post = await this.postRepository.getOne(postId);
+    if (!post) {
+      throw new PostNotFoundException();
+    }
+    return post;
+  }
+
   // localiza todos os comentários de um post
   async findAllByPostId(postId) {
     const comments = await this.commentRepository.findAllByPostId(postId);
@@ -40,6 +50,7 @@ class CommentService {
   async create(body, postId, ownerId) {
     await commentValidation(body);
     idValidation(postId);
+    await this.checkIfPostExists(postId);
     const savedComment = await this.commentRepository.createNewComment({
       ...body,
       post: postId,
@@ -71,13 +82,14 @@ class CommentService {
 
   // método para um Admin deletar qualquer comentário
   async adminDeleteComment(commentId) {
+    console.log(commentId);
     idValidation(commentId);
-    const deletedComment = await this.commentRepository.deleteOne(commentId);
-    const commentOwner = { owner: deletedComment.owner };
-    const commentPost = { post: deletedComment.post };
+    const comment = await this.commentRepository.deleteOne(commentId);
+    console.log(comment);
+    const commentOwner = { owner: comment.owner };
+    const commentPost = { post: comment.post };
     await this.postRepository.removeCommentId(commentPost, commentId);
     await this.authRepository.removeCommentFromUserProfile(commentOwner, commentId);
-    return deletedComment;
   }
 }
 

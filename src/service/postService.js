@@ -65,6 +65,12 @@ class PostService {
   async deleteOne(postId, ownerId) {
     idValidation(postId);
     await this.findPostIdAndValidateOwnership(postId, ownerId);
+    const foundComments = await this.commentRepository.findAllByPostId(postId);
+    await foundComments.map((e) => {
+      console.log(e.owner);
+      console.log(e.id);
+      return this.authRepository.removeCommentFromUserProfile(e.owner, e.id);
+    });
     const deletePost = await this.postRepository.deleteOneById(postId);
     await this.authRepository.removePostFromUserProfile(ownerId, postId);
     await this.commentRepository.deleteAll(postId);
@@ -74,6 +80,12 @@ class PostService {
   // método para o Admin deletar qualquer post
   async adminDeletePost(postId) {
     idValidation(postId);
+    const foundComments = await this.commentRepository.findAllByPostId(postId);
+    await foundComments.map((e) => {
+      console.log(e.owner);
+      console.log(e.id);
+      return this.authRepository.removeCommentFromUserProfile(e.owner, e.id);
+    });
     const deletedPost = await this.postRepository.deleteOneById(postId);
     const postOwner = { owner: deletedPost.owner };
     await this.authRepository.removePostFromUserProfile(postOwner, postId);

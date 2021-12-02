@@ -18,9 +18,9 @@ const router = Router();
 const authRepository = new AuthRepository(User);
 const postRepository = new PostRepository(Post);
 const commentRepository = new CommentRepository(Comment);
-const authService = new AuthService(authRepository);
-const postService = new PostService(postRepository);
-const commentService = new CommentService(commentRepository);
+const authService = new AuthService(authRepository, postRepository, commentRepository);
+const postService = new PostService(authRepository, postRepository, commentRepository);
+const commentService = new CommentService(commentRepository, postRepository, authRepository);
 
 // Middleware para validação do Admin
 const adminRoleMiddleware = (req, res, next) => {
@@ -79,9 +79,9 @@ router.delete('/post/:postId', adminRoleMiddleware, async (req, res, next) => {
 // Rota para o Admin deletar um comentário
 router.delete('/comment/:commentId', adminRoleMiddleware, async (req, res, next) => {
   try {
-    const { postId } = req.params;
-    const deletedPost = await commentService.adminDeleteComment(postId);
-    res.json(deletedPost);
+    const { commentId } = req.params;
+    const deletedComment = await commentService.adminDeleteComment(commentId);
+    res.json(deletedComment);
   } catch (error) {
     next(error);
   }
