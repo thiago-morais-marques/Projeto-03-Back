@@ -9,7 +9,7 @@ class PostRepository {
   async getAll(title) {
     const posts = await this.postModel.find({
       title: { $regex: new RegExp(title, 'i') },
-    });
+    }).populate('comments');
     return posts;
   }
 
