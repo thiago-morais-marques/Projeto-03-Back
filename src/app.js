@@ -3,7 +3,7 @@
 
 import express from 'express';
 import dotenv from 'dotenv';
-// import cors from 'cors';
+import cors from 'cors';
 
 import initDbConnection from './configs/database';
 import appRoutes from './routes';
@@ -14,9 +14,9 @@ dotenv.config();
 initDbConnection();
 
 app.use(express.json());
-/* app.use(cors({
+app.use(cors({
   origin: process.env.FRONT_END_URI,
-})); */
+}));
 
 app.use((req, res, next) => {
   console.log(req.method, ' ', req.path);
