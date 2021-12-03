@@ -89,11 +89,10 @@ class AuthService {
   async deleteUserPostsAndComments(userId) {
     idValidation(userId);
     const foundPosts = await this.commentRepository.findAllByOwnerId(userId);
-    await foundPosts.map((e) => {
-      console.log(e.post);
-      console.log(e.id);
+    const promises = foundPosts.map((e) => {
       return this.postRepository.removeCommentId(e.post, e.id);
     });
+    await Promise.all(promises);
     await this.commentRepository.deleteAllByOwnerId(userId);
     await this.postRepository.deleteAllById(userId);
     await this.authRepository.deleteOneById(userId);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 // o app inicia por este arquivo
 
 import express from 'express';
@@ -24,7 +25,7 @@ app.use((req, res, next) => {
 
 app.use('/api', appRoutes);
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   console.log(error);
   res.status(error.status || 500).json({ error: error.message });
 });

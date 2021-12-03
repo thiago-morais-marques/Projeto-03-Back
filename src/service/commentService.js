@@ -85,8 +85,6 @@ class CommentService {
     console.log(commentId);
     idValidation(commentId);
     const comment = await this.commentRepository.deleteOne(commentId);
-    console.log(comment.owner);
-    console.log(comment.post);
     await this.postRepository.removeCommentId(comment.post, commentId);
     await this.authRepository.removeCommentFromUserProfile(comment.owner, commentId);
   }

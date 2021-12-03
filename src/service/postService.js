@@ -66,11 +66,10 @@ class PostService {
     idValidation(postId);
     await this.findPostIdAndValidateOwnership(postId, ownerId);
     const foundComments = await this.commentRepository.findAllByPostId(postId);
-    await foundComments.map((e) => {
-      console.log(e.owner);
-      console.log(e.id);
+    const promises = foundComments.map((e) => {
       return this.authRepository.removeCommentFromUserProfile(e.owner, e.id);
     });
+    await Promise.all(promises);
     const deletePost = await this.postRepository.deleteOneById(postId);
     await this.authRepository.removePostFromUserProfile(ownerId, postId);
     await this.commentRepository.deleteAll(postId);
@@ -81,11 +80,10 @@ class PostService {
   async adminDeletePost(postId) {
     idValidation(postId);
     const foundComments = await this.commentRepository.findAllByPostId(postId);
-    await foundComments.map((e) => {
-      console.log(e.owner);
-      console.log(e.id);
+    const promises = foundComments.map((e) => {
       return this.authRepository.removeCommentFromUserProfile(e.owner, e.id);
     });
+    await Promise.all(promises);
     const getOnePost = await this.postRepository.getOne(postId);
     const deletedPost = await this.postRepository.deleteOneById(postId);
     await this.authRepository.removePostFromUserProfile(getOnePost.owner, postId);
