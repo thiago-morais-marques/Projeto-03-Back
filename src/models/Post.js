@@ -22,6 +22,13 @@ const postSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+    required: true,
+    minlength: 10,
+    maxlength: 400,
+    trim: true,
+  },
   date: {
     type: Date,
     default: Date.now,

@@ -10,6 +10,11 @@ const postValidation = async (body) => {
     .required('Required field')
     .min(1, 'Mimimum of one charracter')
     .max(300, 'Maximum of 300 charracters'),
+    description: yup
+    .string()
+    .required('Required field')
+    .min(10, 'Mimimum of one charracter')
+    .max(400, 'Maximum of 300 charracters'),
     });
     try {
       await schema.validate(body, { abortEarly: false });
