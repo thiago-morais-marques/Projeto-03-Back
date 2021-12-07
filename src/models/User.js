@@ -40,6 +40,10 @@ const userSchema = new Schema({
     ref: 'comment',
     default: [],
   }],
+  profilePicture: {
+    type: String,
+    required: true,
+  },
 }, {
     timestamps: true,
 });
