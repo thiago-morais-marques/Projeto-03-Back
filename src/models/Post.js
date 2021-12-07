@@ -7,7 +7,7 @@ const postSchema = new Schema({
     type: String,
     required: true,
     minlength: 1,
-    maxlength: 300,
+    maxlength: 150,
     trim: true,
   },
   imageURL: {
@@ -26,7 +26,7 @@ const postSchema = new Schema({
     type: String,
     required: true,
     minlength: 10,
-    maxlength: 400,
+    maxlength: 100,
     trim: true,
   },
   date: {
