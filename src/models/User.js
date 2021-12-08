@@ -3,6 +3,13 @@
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
+  userName: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 15,
+    trim: true,
+  },
   name: {
     type: String,
     required: true,
@@ -20,6 +27,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  profilePicture: {
+    type: String,
+    required: true,
   },
   role: {
     type: String,
@@ -40,10 +51,6 @@ const userSchema = new Schema({
     ref: 'comment',
     default: [],
   }],
-  profilePicture: {
-    type: String,
-    required: true,
-  },
 }, {
     timestamps: true,
 });

@@ -17,6 +17,16 @@ const postRepository = new PostRepository(Post);
 const commentRepository = new CommentRepository(Comment);
 const authService = new AuthService(authRepository, postRepository, commentRepository);
 
+// Busca um úncio usuário
+router.get('/', async (req, res, next) => {
+  try {
+    const user = await authService.findOneUser(req.user.id);
+    res.json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // Edita conta do usuário
 router.put('/edit', async (req, res, next) => {
   try {

@@ -5,9 +5,10 @@ import InvalidBodyRequestException from '../exceptions/InvalidBodyRequestExcepti
 
 const registerSchema = async (body) => {
   const schema = yup.object().shape({
-    name: yup.string().required('Required field').min(3, 'Mimimum of 3 charracters').max(150, 'Maximum of 150 charracters'),
+    userName: yup.string().required('Required field').min(5, 'Mimimum of 5 charracters').max(15, 'Maximum of 15 charracters'),
+    name: yup.string().required('Required field').min(3, 'Mimimum of 3 charracters').max(100, 'Maximum of 150 charracters'),
     email: yup.string().required('Required field').email('Invalid format'),
-    password: yup.string().required('Required field').min(6, 'Mimimum of 6 charracters').max(50, 'Maximum of 50 charracters'),
+    password: yup.string().required('Required field').min(6, 'Mimimum of 6 charracters').max(10, 'Maximum of 10 charracters'),
     role: yup.string().oneOf(['user', 'admin']),
     active: yup.boolean().oneOf([true, false]),
   });
