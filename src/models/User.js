@@ -3,11 +3,18 @@
 import { Schema, model } from 'mongoose';
 
 const userSchema = new Schema({
+  userName: {
+    type: String,
+    required: true,
+    minlength: 5,
+    maxlength: 15,
+    trim: true,
+  },
   name: {
     type: String,
     required: true,
     minlength: 3,
-    maxlength: 150,
+    maxlength: 100,
     trim: true,
   },
   email: {
@@ -20,6 +27,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  profilePicture: {
+    type: String,
   },
   role: {
     type: String,
@@ -40,10 +50,6 @@ const userSchema = new Schema({
     ref: 'comment',
     default: [],
   }],
-  profilePicture: {
-    type: String,
-    required: true,
-  },
 }, {
     timestamps: true,
 });

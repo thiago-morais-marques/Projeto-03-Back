@@ -73,6 +73,13 @@ class AuthService {
     return blockedUser;
   }
 
+  // lista apenas um usuário
+  async findOneUser(userId) {
+    idValidation(userId);
+    const users = await this.authRepository.findUserById(userId);
+    return users;
+  }
+
   // lista todos os usuários
   async findAllUsers(name = '') {
     const users = await this.authRepository.findAllByUserName(name);

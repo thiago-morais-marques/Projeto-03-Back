@@ -13,6 +13,13 @@ class PostRepository {
     return posts;
   }
 
+  // busca todos os posts pelo título
+/*   async getAll(title) {
+    const posts = await this.postModel.find({
+      title: { $regex: new RegExp(title, 'i') },
+    }).populate('comments');
+    return posts; */
+
   // busca todos os posts pelo Id de usuário
   async findAllByOwnerId(ownerId) {
     const posts = await this.postModel.find({ owner: ownerId });
