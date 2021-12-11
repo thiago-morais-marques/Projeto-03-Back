@@ -15,6 +15,7 @@ const postValidation = async (body) => {
     .required('Required field')
     .min(10, 'Mimimum of 10 charracter')
     .max(100, 'Maximum of 100 charracters'),
+    imageURL: yup.string().required('Required field'),
     });
     try {
       await schema.validate(body, { abortEarly: false });
