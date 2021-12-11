@@ -13,12 +13,14 @@ class PostRepository {
     return posts;
   }
 
-  // busca todos os posts pelo título
-/*   async getAll(title) {
-    const posts = await this.postModel.find({
-      title: { $regex: new RegExp(title, 'i') },
-    }).populate('comments');
-    return posts; */
+  // busca todos os posts pelo título e texto
+  async getAllByTextAndTitle(title, text) {
+  const posts = await this.postModel.find({
+    title: { $regex: new RegExp(title, 'i') },
+    text: { $regex: new RegExp(text, 'i') },
+  }).populate('comments');
+  return posts;
+  }
 
   // busca todos os posts pelo Id de usuário
   async findAllByOwnerId(ownerId) {

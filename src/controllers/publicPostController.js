@@ -15,7 +15,18 @@ const postService = new PostService(postRepository);
 router.get('/', async (req, res, next) => {
   try {
     const { title } = req.query;
-    const posts = await postService.getAllByFilter(title);
+    const posts = await postService.getAllByTitle(title);
+    res.json(posts);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get('/search', async (req, res, next) => {
+  try {
+    const { title } = req.query;
+    const { text } = req.query;
+    const posts = await postService.searchByTextAndTitle(title, text);
     res.json(posts);
   } catch (error) {
     next(error);
