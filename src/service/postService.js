@@ -31,8 +31,14 @@ class PostService {
   }
 
   // lista todos os posts de acordo com o título
-  async getAllByFilter(title = '') {
+  async getAllByTitle(title = '') {
     const posts = await this.postRepository.getAll(title);
+    return posts;
+  }
+
+  // lista todos os posts de acordo com o título
+  async searchByTextAndTitle(title = '', text = '') {
+    const posts = await this.postRepository.getAllByTextAndTitle(title, text);
     return posts;
   }
 
