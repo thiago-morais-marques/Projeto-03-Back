@@ -24,9 +24,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/search', async (req, res, next) => {
   try {
-    const { title } = req.query;
-    const { text } = req.query;
-    const posts = await postService.searchByTextAndTitle(title, text);
+    const { filter } = req.query;
+    console.log(filter);
+    const posts = await postService.searchByTextAndTitle(filter);
     res.json(posts);
   } catch (error) {
     next(error);

@@ -37,8 +37,11 @@ class PostService {
   }
 
   // lista todos os posts de acordo com o título
-  async searchByTextAndTitle(title = '', text = '') {
-    const posts = await this.postRepository.getAllByTextAndTitle(title, text);
+  async searchByTextAndTitle(filter = '') {
+    const posts = await this.postRepository.getAllByTextAndTitle(filter);
+    if (!posts) {
+      throw new PostNotFoundException();
+    }
     return posts;
   }
 

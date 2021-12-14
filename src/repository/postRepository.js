@@ -14,11 +14,10 @@ class PostRepository {
   }
 
   // busca todos os posts pelo título e texto
-  async getAllByTextAndTitle(title, text) {
+  async getAllByTextAndTitle(filter) {
   const posts = await this.postModel.find({
-    title: { $regex: new RegExp(title, 'i') },
-    text: { $regex: new RegExp(text, 'i') },
-  }).populate('comments');
+    $or: [{ title: { $regex: new RegExp(filter, 'i') } }, { text: { $regex: new RegExp(filter, 'i') } }],
+  });
   return posts;
   }
 
