@@ -19,7 +19,7 @@ class AuthRepository {
 
   // método para buscar um usuário no banco de dados pelo ID
   async findUserById(userId) {
-    const user = await this.authModel.findOne({ _id: userId });
+    const user = await this.authModel.findOne({ _id: userId }).populate('posts');
     return user;
   }
 

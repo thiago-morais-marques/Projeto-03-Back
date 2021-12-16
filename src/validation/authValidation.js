@@ -10,6 +10,7 @@ const registerSchema = async (body) => {
     email: yup.string().required('Required field').email('Invalid format'),
     password: yup.string().required('Required field').min(6, 'Mimimum of 6 charracters').max(10, 'Maximum of 10 charracters'),
     profilePicture: yup.string(),
+    posts: yup.array(),
     role: yup.string().oneOf(['user', 'admin']),
     active: yup.boolean().oneOf([true, false]),
   });
