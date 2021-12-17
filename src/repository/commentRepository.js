@@ -7,7 +7,7 @@ class CommentRepository {
 
   // acha todos os comentários pelo ID do post
   async findAllByPostId(postId) {
-      const comment = await this.commentModel.find({ post: postId });
+      const comment = await this.commentModel.find({ post: postId }).populate('owner');
       return comment;
   }
 
