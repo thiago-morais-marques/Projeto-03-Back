@@ -8,7 +8,7 @@ const postValidation = async (body) => {
     title: yup.string().required('Required field').min(1, 'Mimimum of one charracter').max(150, 'Maximum of 150 charracters'),
     text: yup.string().required('Required field'),
     description: yup.string().min(10, 'Mimimum of 10 charracter').max(100, 'Maximum of 100 charracters'),
-    imageURL: yup.string().required('Required field'),
+    imageURL: yup.string(),
     });
     try {
       await schema.validate(body, { abortEarly: false });

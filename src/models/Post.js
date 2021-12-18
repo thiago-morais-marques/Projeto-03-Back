@@ -12,7 +12,6 @@ const postSchema = new Schema({
   },
   imageURL: {
     type: String,
-    required: true,
   },
   tag: [{
     type: String,
