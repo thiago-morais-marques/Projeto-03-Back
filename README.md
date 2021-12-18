@@ -21,5 +21,4 @@ Linkedin: https://www.linkedin.com/in/thiago-morais-marques/
 ## Apresentação do projeto
 https://docs.google.com/presentation/d/e/2PACX-1vTPr572gwdh_3VZrYhmjIZ3W_5mg3VDducTdynPFb-GOR5JzP7yKQ7NJHcR7dzouyIq7qdBVIbQdkKT/pub?start=false&loop=fal
 
-###Link para o aplicativo
-https://iron-blogger.netlify.app/
+Link para o aplicativo: https://iron-blogger.netlify.app/
