@@ -39,42 +39,10 @@ $ npm run dev
 
 Registra um novo usuário.
 
-```json
-POST /auth/register
-{
-  "username": "jdoe",
-  "password": "toto123"
-}
-```
+### `POST /auth/login` -- LOGIN
 
-response:
+Faz o login do usuário.
 
-```
-201 Created
-{
-  "_id": "kjnc9n213n2384nb1k24jh12g438",
-  "username": "jdoe",
-  "password": "1324bhj1{24b2j4.k12h%3b4jh1b234j$"
-}
-```
-
-if already exists:
-
-```
-409 Conflict
-{
-  "message": "This user already exists"
-}
-```
-
-or if not secure password:
-
-```
-422 Unprocessable Entity
-{
-  "message": "`password` must have at least 6 chars"
-}
-```
 
 
 ## Autores
