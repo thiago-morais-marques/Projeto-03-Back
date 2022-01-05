@@ -1,6 +1,6 @@
 ![alt text](https://github.com/THGMMX/Projeto-03-Front/blob/main/public/Logo.png)
 
-## Ideia do projeto:
+## Ideia do projeto
 
 Projeto de conclusão de curso do bootcamp de desenvolvimento web full stack da Ironhack, onde o escopo foi a criação de um Blog de Tecnologia, Finanças e Sustentabilidade.
 
