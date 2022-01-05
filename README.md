@@ -35,6 +35,7 @@ $ npm run dev
 
 ## API
 
+
 ### Rotas Públicas:
 
 #### `POST /auth/register` -- SIGNUP
@@ -60,6 +61,7 @@ Retorna um único post.
 #### `GET /comments/:postId` -- GET COMMENTS
 
 Retorna os comentários de um post.
+
 
 ### Rotas Privadas:
 
