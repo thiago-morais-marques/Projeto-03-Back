@@ -35,7 +35,7 @@ $ npm run dev
 
 ## API
 
-### * Rotas Públicas:
+### Rotas Públicas:
 
 #### `POST /auth/register` -- SIGNUP
 
