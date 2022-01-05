@@ -33,6 +33,50 @@ $ npm run dev
 
 * App: [Link](https://iron-blogger.netlify.app/)
 
+## API
+
+### `POST /users` -- CREATE
+
+Create a new user.
+
+```json
+POST /users
+{
+  "username": "jdoe",
+  "password": "toto123"
+}
+```
+
+response:
+
+```
+201 Created
+{
+  "_id": "kjnc9n213n2384nb1k24jh12g438",
+  "username": "jdoe",
+  "password": "1324bhj1{24b2j4.k12h%3b4jh1b234j$"
+}
+```
+
+if already exists:
+
+```
+409 Conflict
+{
+  "message": "This user already exists"
+}
+```
+
+or if not secure password:
+
+```
+422 Unprocessable Entity
+{
+  "message": "`password` must have at least 6 chars"
+}
+```
+
+
 ## Autores
 
 * Thiago Morais Marques: [LinkedIn](https://www.linkedin.com/in/thiago-morais-marques). 
