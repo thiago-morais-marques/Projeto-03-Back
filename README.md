@@ -40,7 +40,7 @@ $ npm run dev
 Registra um novo usuário.
 
 ```json
-POST /users
+POST /auth/register
 {
   "username": "jdoe",
   "password": "toto123"
