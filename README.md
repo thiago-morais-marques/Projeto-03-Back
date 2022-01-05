@@ -19,6 +19,12 @@ Dependências:
 $ npm install
 ```
 
+## Dev
+ 
+```sh
+$ npm run dev
+```
+
 ## Links do Projeto
 
 * Apresentação em slides: [Link](https://docs.google.com/presentation/d/e/2PACX-1vTPr572gwdh_3VZrYhmjIZ3W_5mg3VDducTdynPFb-GOR5JzP7yKQ7NJHcR7dzouyIq7qdBVIbQdkKT/pub?start=false&loop=false&delayms=3000)
