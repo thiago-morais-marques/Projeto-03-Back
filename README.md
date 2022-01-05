@@ -35,11 +35,13 @@ $ npm run dev
 
 ## API
 
-### `POST /auth/register` -- SIGNUP
+### Rotas Públicas
+
+#### `POST /auth/register` -- SIGNUP
 
 Registra um novo usuário.
 
-### `POST /auth/login` -- LOGIN
+#### `POST /auth/login` -- LOGIN
 
 Faz o login do usuário.
 
