@@ -35,9 +35,9 @@ $ npm run dev
 
 ## API
 
-### `POST /users` -- CREATE
+### `POST /auth/register` -- SIGNUP
 
-Create a new user.
+Registra um novo usuário.
 
 ```json
 POST /users
