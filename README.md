@@ -45,7 +45,83 @@ Registra um novo usuário.
 
 Faz o login do usuário.
 
+#### `GET /posts` -- GET POSTS
 
+Lista todos os posts.
+
+#### `GET /posts/search` -- SEARCH POSTS
+
+Rota de busca de posts.
+
+#### `GET /posts/:id` -- GET POST
+
+Retorna um único post.
+
+#### `GET /comments/:postId` -- GET COMMENTS
+
+Retorna os comentários de um post.
+
+### Rotas Privadas:
+
+#### `GET /account` -- GET USER
+
+Retorna um usuário.
+
+#### `PUT /account/edit` -- EDIT USER
+
+Edita um usuário.
+
+#### `DELETE /account/delete` -- DELETE USER
+
+Deleta a conta do usuário, mas mantêm posts e comentários.
+
+#### `DELETE /account/delete-everything` -- DELETE EVERYTHING
+
+Deleta a conta do usuário e apaga posts e comentários.
+
+#### `GET /admin/users` -- ADMIN GET USERS
+
+Rota para listar todos os usuários.
+
+#### `PUT /block/:userID` -- BLOCK USER
+
+Rota para bloquear um usuário.
+
+#### `DELETE /ban/:userId` -- BAN USER
+
+Rota para banir um usuário
+
+#### `DELETE /post/:postId` -- ADMIN DELETE POST
+
+Rota para o Admin deletar um post.
+
+#### `DELETE /comment/:commentId` -- ADMIN DELETE COMMENT
+
+Rota para o Admin deletar um comentário
+
+#### `POST /posts` -- CREATE POST
+
+Rota de Criação de Posts.
+
+#### `PUT /posts/:postId` -- EDIT POSTS
+
+Rota de Edição de Posts.
+
+#### `DELETE /posts/:postId` -- DELETE POSTS
+
+Rota de Deleção de Posts.
+
+#### `POST /comments/:postId` -- CREATE COMMENT
+
+Rota de Criação de Comentários.
+
+#### `PUT /comments/:commentId` -- EDIT COMMENT
+
+Rota de Edição de Comentários.
+
+#### `DELETE /comments/:commentId` -- DELETE COMMENT
+
+Rota de Deleção de Comentários.
 
 ## Autores
 
