@@ -127,6 +127,6 @@ Rota de Deleção de Comentários.
 
 ## Autores
 
-* Thiago Morais Marques: [LinkedIn](https://www.linkedin.com/in/thiago-morais-marques). 
+* Thiago Morais Marques: [LinkedIn](https://www.linkedin.com/in/thiagomoraismarques). 
 
 * João Pedro: [LinkedIn](https://www.linkedin.com/in/joaopedro-teo/)
